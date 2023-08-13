@@ -1,0 +1,117 @@
+:root{
+    --blackishBlue: rgb(11, 25, 81);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.flex{
+    display: flex;
+}
+
+.grid{
+    display: grid;
+}
+
+.content{
+    height: 100vh;
+    padding: 24px 30px;
+    background-image: linear-gradient(rgb(45, 134, 223), rgb(48, 20, 121));
+}
+
+.header{
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    column-gap: 20px;
+}
+
+.logo_and_img_div{
+    gap: 8px;
+}
+
+.logo{
+    width: 30px;
+    height: 30px;
+}
+
+.searchBar{
+    width: 300px;
+    height: 25px;
+
+    border-radius: 15px;
+
+    padding: 6px;
+    padding-left: 12px;
+
+    font-size: 20px;
+    font-weight: 1000;
+
+    appearance: none;
+    border: none;
+    background-color: var(--blackishBlue)
+}
+
+.searchBar:focus{
+    outline: none;
+}
+
+.clearSearch{
+    position: absolute;
+    display: none;
+
+    color: white;
+    
+    width: 20px;
+    height: 20px;
+
+    font-size: 18px;
+
+    margin-left: -70px;
+    margin-top: 8px;
+
+    background: none;
+    border: none;
+}
+
+.searchBtn{
+    position: absolute;
+
+    width: 20px;
+    height: 20px;
+
+    background: none;
+    border: none;
+
+    margin-top: 10px;
+    margin-left: -36px;
+}
+
+.search_icon{
+    width: 20px;
+    height: 20px;
+}
+
+.unit_conversion_container > button{
+    background-color: var(--blackishBlue);
+
+    border: none;
+    border-radius: 15px;
+
+    font-size: 18px;
+
+    padding: 6px;
+    height: 40px;
+    width: 80px;
+}
+
+.metricCoversion{
+    margin-right: 18px;
+}
+
+.body_content{
+    justify-content: center;
+}

@@ -9,101 +9,121 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="content flex">
-        <div class="header"></div>
+    <div class="content">
+        <div class="header flex">
+            <div class="logo_and_img_div flex">
+                <img src="./Assets/Images/wizard-256.png" alt="" class="logo">
+                <h1>WthrWiz</h1>
+            </div>
+
+            <div class="searchContainer">
+                <input type="text" class="searchBar">
+                <button class="clearSearch">X</button>
+                <button class="searchBtn">
+                    <img src="./Assets/Images/search-13-256.png" alt="" class="search_icon">
+                </button>
+            </div>
+
+            <div class="unit_conversion_container">
+                <button class="metricCoversion">C, m/s</button>
+                <button class="imperialConversion">F, mph</button>
+            </div>
+        </div>
         <h1 class="location"></h1>
         <h3 class="date"></h3>
 
-        <div class="day_forecast_container flex">
-            <div class="temp_overview_container">
-                <div class="temp_container flex">
+        <div class="body_content flex">
+            <div class="day_forecast_container flex">
+                <div class="temp_overview_container">
+                    <div class="temp_container flex">
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="forecast_overview_container grid">
-            <div class="forecast_container">
-                <p class="forecast_name">Wind</p>
-                <div class="windspeed_container flex">
-                    <img src="" alt="">
+            <div class="forecast_overview_container grid">
+                <div class="forecast_container">
+                    <p class="forecast_name">Wind</p>
+                    <div class="windspeed_container flex">
+                        <img src="" alt="">
+                        <p class="forecast_info"></p>
+                    </div>
+                </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">Gust</p>
                     <p class="forecast_info"></p>
                 </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">Humidity</p>
+                    <p class="forecast_info"></p>
+                </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">UV Index</p>
+                    <p class="forecast_info"></p>
+                </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">Precipitation</p>
+                    <p class="forecast_info"></p>
+                </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">Cloudiness</p>
+                    <p class="forecast_info"></p> 
+                </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">Sunrise</p>
+                    <p class="forecast_info"></p> 
+                </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">Sunset</p>
+                    <p class="forecast_info"></p> 
+                </div>
+                <div class="forecast_container">
+                    <p class="forecast_name">Moon</p>
+                    <img src="" alt="">
+                </div>
             </div>
-            <div class="forecast_container">
-                <p class="forecast_name">Humidity</p>
-                <p class="forecast_info"></p>
-            </div>
-            <div class="forecast_container">
-                <p class="forecast_name">UV Index</p>
-                <p class="forecast_info"></p>
-            </div>
-            <div class="forecast_container">
-                <p class="forecast_name">Visibility</p>
-                <p class="forecast_info"></p>
-            </div>
-            <div class="forecast_container">
-                <p class="forecast_name">Cloudiness</p>
-                <p class="forecast_info"></p>
-            </div>
-            <div class="forecast_container">
-                <p class="forecast_name">Chance of rain</p>
-                <p class="forecast_info"></p> 
-            </div>
-            <div class="forecast_container">
-                <p class="forecast_name">Sunrise</p>
-                <p class="forecast_info"></p> 
-            </div>
-            <div class="forecast_container">
-                <p class="forecast_name">Sunset</p>
-                <p class="forecast_info"></p> 
-            </div>
-            <div class="forecast_container">
-                <p class="forecast_name">Moon</p>
-                <img src="" alt="">
-            </div>
-        </div>
 
-        <h2 class="weekly_forecast_header">Three-Day Forecast</h2>
+            <h2 class="weekly_forecast_header">Three-Day Forecast</h2>
 
-        <div class="forecast_table">
-            <div class="table_headers_container">
-                <h3>Day</h3>
-                <h3>Temp (High)</h3>
-                <h3>Temp (Low)</h3>
-                <h3>Wind Speed (<span class="unit">mph</span>)</h3>
-            </div>
-            <div class="day_foreecast_row_div flex">
-                <p class="day"></p>
+            <div class="forecast_table">
+                <div class="table_headers_container">
+                    <h3>Day</h3>
+                    <h3>Temp (High)</h3>
+                    <h3>Temp (Low)</h3>
+                    <h3>Wind Speed (<span class="unit">mph</span>)</h3>
+                </div>
+                <div class="day_foreecast_row_div flex">
+                    <p class="day"></p>
 
-                <img class="weather_icon" src="" alt="">
-                <p class="high_temp"></p>
+                    <img class="weather_icon" src="" alt="">
+                    <p class="high_temp"></p>
 
-                <p class="low_temp"></p>
+                    <p class="low_temp"></p>
 
-                <img class="wind_speed_icon" src="" alt="">
-                <p class="wind_speed_info"></p>
-            </div>
-            <div class="day_foreecast_row_div flex">
-                <p class="day"></p>
+                    <img class="wind_speed_icon" src="" alt="">
+                    <p class="wind_speed_info"></p>
+                </div>
+                <div class="day_foreecast_row_div flex">
+                    <p class="day"></p>
 
-                <img class="weather_icon" src="" alt="">
-                <p class="high_temp"></p>
+                    <img class="weather_icon" src="" alt="">
+                    <p class="high_temp"></p>
 
-                <p class="low_temp"></p>
+                    <p class="low_temp"></p>
 
-                <img class="wind_speed_icon" src="" alt="">
-                <p class="wind_speed_info"></p>
-            </div>
-            <div class="day_foreecast_row_div flex">
-                <p class="day"></p>
+                    <img class="wind_speed_icon" src="" alt="">
+                    <p class="wind_speed_info"></p>
+                </div>
+                <div class="day_foreecast_row_div flex">
+                    <p class="day"></p>
 
-                <img class="weather_icon" src="" alt="">
-                <p class="high_temp"></p>
+                    <img class="weather_icon" src="" alt="">
+                    <p class="high_temp"></p>
 
-                <p class="low_temp"></p>
+                    <p class="low_temp"></p>
 
-                <img class="wind_speed_icon" src="" alt="">
-                <p class="wind_speed_info"></p>
+                    <img class="wind_speed_icon" src="" alt="">
+                    <p class="wind_speed_info"></p>
+                </div>
             </div>
         </div>
         <footer>
