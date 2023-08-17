@@ -1,4 +1,4 @@
-let conversion = "metric"
+let conversion = "imperial"
 
 const getDayWeatherForecast = async (searchKey, conversion) =>{
     const weatherInfoPromise= await fetch(`https://api.weatherapi.com/v1/forecast.json?key=7a394824141a47de8e3205208231108&q=${searchKey}&days=1`, 
@@ -33,6 +33,7 @@ const getDayWeatherForecast = async (searchKey, conversion) =>{
             }
             return weatherForecastImperial
         }else if(conversion === "metric"){
+            // Forgot to removeunits from key names. Disregard them
             const weatherForecastMetric = {
                 Search_Location: response.location.name,
                 Country: response.location.country,
@@ -64,28 +65,48 @@ const getDayWeatherForecast = async (searchKey, conversion) =>{
 }
 
 const getThreeDayForecast = (searchValue) =>{
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=7a394824141a47de8e3205208231108&q=${searchValue}&days=3`, {mode: 'cors'})
+    return fetch(`https://api.weatherapi.com/v1/forecast.json?key=7a394824141a47de8e3205208231108&q=${searchValue}&days=3`, {mode: 'cors'})
     .then((response) =>{
         return response.json()
     }).then((result) =>{
+        console.log("RESULT")
+        console.log(result)
         const daysForecasts = []
         resultForexastArray = result.forecast.forecastday
-        for(let i=0; i<resultForexastArray.length(); i++){
-            const dayForecastObject = {
-                Forecast_Icon: resultForexastArray[i].day.condition.icon,
-
-                DayName: formatDate(resultForexastArray[i].date, 'yes'),
-                Min_Temp_F: `${resultForexastArray[i].day.mintemp_f}`,
-                Max_Temp_F: `${resultForexastArray[i].day.maxtemp_f}`,
-                Avg_Humidity: `${resultForexastArray[i].day.avghumidity}%`,
+        console.log(resultForexastArray)
+        for(let i=0; i<resultForexastArray.length; i++){
+            if(conversion === 'imperial'){
+                const imperialDayForecastObject = {
+                    Forecast_Icon: resultForexastArray[i].day.condition.icon,
+    
+                    DayName: formatDate(resultForexastArray[i].date, 'yes'),
+                    Min_Temp: `${resultForexastArray[i].day.mintemp_f}\u00B0F`,
+                    Max_Temp: `${resultForexastArray[i].day.maxtemp_f}\u00B0F`,
+                    Avg_Humidity: `${resultForexastArray[i].day.avghumidity}%`,
+                }
+                daysForecasts.push(imperialDayForecastObject)
+            }else if(conversion === 'metric'){
+                const metricDayForecastObject = {
+                    Forecast_Icon: resultForexastArray[i].day.condition.icon,
+    
+                    DayName: formatDate(resultForexastArray[i].date, 'yes'),
+                    Min_Temp: `${resultForexastArray[i].day.mintemp_c}\u00B0C`,
+                    Max_Temp: `${resultForexastArray[i].day.maxtemp_c}\u00B0C`,
+                    Avg_Humidity: `${resultForexastArray[i].day.avghumidity}%`,
+                }
+                daysForecasts.push(metricDayForecastObject)
             }
         }
+        console.log("YUUUHUHUU")
+        console.log(daysForecasts)
+        return daysForecasts
     }).catch((error) =>{
         return "error"
     })
 }
 
 const formatDate = (dateString, onlyReturnDayName ="") =>{
+    console.log("DATE STRING: " + dateString)
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
         'Thursday', 'Friday', 'Saturday'
     ];
@@ -94,12 +115,13 @@ const formatDate = (dateString, onlyReturnDayName ="") =>{
         "July", "August", "September", "October", "November", "December"
       ];
 
-    const date = new Date(dateString)
-    let dayName = days[date.getDay()];
-
     if(onlyReturnDayName !== ""){
+        const date = new Date(dateString + "T00:00") // Get date with local time to avoid incorrect date
+        let dayName = days[date.getDay()];
         return `${dayName}`
     }else{
+        const date = new Date(dateString) // Get date with UT
+        let dayName = days[date.getDay()];
         let day = date.getDate()
         let monthName = months[date.getMonth()]
         let year = date.getFullYear()
@@ -205,6 +227,28 @@ const displayDayWeatherForecast = (forecast) =>{
     }
 }
 
+const displayThreeDayForcast = (forcastArray) =>{
+    console.log("FORCAST ARRAY:")
+    console.log(forcastArray)
+    const forcastTable = document.querySelectorAll(".day_foreecast_row_div")
+    for(let i=0; i<forcastArray.length; i++){
+        const day = forcastTable[i].querySelector(".day")
+        day.textContent = forcastArray[i].DayName
+        
+        const weatherIcon = forcastTable[i].querySelector(".weather_icon")
+        weatherIcon.src = forcastArray[i].Forecast_Icon
+        
+        const highTempP = forcastTable[i].querySelector(".high_temp")
+        highTempP.textContent = forcastArray[i].Max_Temp
+        
+        const lowTempP = forcastTable[i].querySelector(".low_temp")
+        lowTempP.textContent = forcastArray[i].Min_Temp
+        
+        const avgHumidityP = forcastTable[i].querySelector(".Avg_Humidity")
+        avgHumidityP.textContent = forcastArray[i].Avg_Humidity
+    }
+}
+
 const searchBar = document.querySelector(".searchBar")
 const searchBtn = document.querySelector(".searchBtn")
 searchBtn.addEventListener("click", async () =>{
@@ -247,8 +291,11 @@ clearSearchBtn.addEventListener("click", () =>{
 const searchWeather = async (searchValue) =>{
     const weatherForecast = await getDayWeatherForecast(searchValue, conversion)
     displayDayWeatherForecast(weatherForecast)
-    const threeDayJSON = await getThreeDayForecast(searchValue)
-    
+    getThreeDayForecast(searchValue).then((result) =>{
+        displayThreeDayForcast(result)
+    }).catch((error) =>{
+        console.log("Uh Oh")
+    })
 }
 
 const metricBtn = document.querySelector(".metricCoversion")
