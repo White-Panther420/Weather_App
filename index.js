@@ -4,9 +4,6 @@ const getDayWeatherForecast = async (searchKey, conversion) =>{
     const weatherInfoPromise= await fetch(`https://api.weatherapi.com/v1/forecast.json?key=7a394824141a47de8e3205208231108&q=${searchKey}&days=1`, 
     {mode: 'cors'})
     const response = await weatherInfoPromise.json()
-    console.log("First Response")
-    console.log(response)
-    console.log(conversion)
     try{
         if(conversion === "imperial"){
             const weatherForecastImperial = {
@@ -60,7 +57,7 @@ const getDayWeatherForecast = async (searchKey, conversion) =>{
         }
         
     }catch(error){
-        return "Error"
+        displayError()
     }
 }
 
@@ -69,11 +66,8 @@ const getThreeDayForecast = (searchValue) =>{
     .then((response) =>{
         return response.json()
     }).then((result) =>{
-        console.log("RESULT")
-        console.log(result)
         const daysForecasts = []
         resultForexastArray = result.forecast.forecastday
-        console.log(resultForexastArray)
         for(let i=0; i<resultForexastArray.length; i++){
             if(conversion === 'imperial'){
                 const imperialDayForecastObject = {
@@ -97,16 +91,13 @@ const getThreeDayForecast = (searchValue) =>{
                 daysForecasts.push(metricDayForecastObject)
             }
         }
-        console.log("YUUUHUHUU")
-        console.log(daysForecasts)
         return daysForecasts
     }).catch((error) =>{
-        return "error"
+        displayError()
     })
 }
 
 const formatDate = (dateString, onlyReturnDayName ="") =>{
-    console.log("DATE STRING: " + dateString)
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
         'Thursday', 'Friday', 'Saturday'
     ];
@@ -228,8 +219,6 @@ const displayDayWeatherForecast = (forecast) =>{
 }
 
 const displayThreeDayForcast = (forcastArray) =>{
-    console.log("FORCAST ARRAY:")
-    console.log(forcastArray)
     const forcastTable = document.querySelectorAll(".day_foreecast_row_div")
     for(let i=0; i<forcastArray.length; i++){
         const day = forcastTable[i].querySelector(".day")
@@ -247,6 +236,17 @@ const displayThreeDayForcast = (forcastArray) =>{
         const avgHumidityP = forcastTable[i].querySelector(".Avg_Humidity")
         avgHumidityP.textContent = forcastArray[i].Avg_Humidity
     }
+}
+
+const displayError = ()=>{
+    const location = document.querySelector(".location")
+    const date = document.querySelector(".date")
+    location.style.display = 'none'
+    date.style.display = "none"
+    const weatherContent = document.querySelector(".body_content")
+    weatherContent.style.display = "none"
+    const errorMsg = document.querySelector(".error")
+    errorMsg.classList.add("active")
 }
 
 const searchBar = document.querySelector(".searchBar")
@@ -289,12 +289,23 @@ clearSearchBtn.addEventListener("click", () =>{
 })
 
 const searchWeather = async (searchValue) =>{
+    const presenterrorMsg = document.querySelector(".active")
+    if(presenterrorMsg !== null){
+        presenterrorMsg.classList.remove('active')
+        const weather_content_container = document.querySelector(".body_content")
+        const location = document.querySelector(".location")      
+        const date = document.querySelector(".date")
+        location.style.display = "block"
+        date.style.display = "block"
+
+        weather_content_container.style.display = "flex"
+    }   
     const weatherForecast = await getDayWeatherForecast(searchValue, conversion)
     displayDayWeatherForecast(weatherForecast)
     getThreeDayForecast(searchValue).then((result) =>{
         displayThreeDayForcast(result)
     }).catch((error) =>{
-        console.log("Uh Oh")
+        displayError()
     })
 }
 
@@ -319,7 +330,9 @@ const convertDataUnits = async (conversionBtn, conversionType) =>{
     conversion = `${conversionType}`
     const location = document.querySelector(".location").textContent
     convertedForcast = await getDayWeatherForecast(location, conversion)
+    convertedThreeDayForecast = await getThreeDayForecast(location, conversion)
     displayDayWeatherForecast(convertedForcast)
+    displayThreeDayForcast(convertedThreeDayForecast)
 }
 
 searchBar.value = "Tempe"
